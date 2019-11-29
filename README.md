@@ -32,6 +32,13 @@ Interception occurs when all of the following are met:
 1. The link is left clicked
 1. Ctrl/Cmd/Shift are not pressed when clicking the link
 
+The store also contains a `goto(url, replace)` method. This accepts two arguments:
+
+- `url`, a string containing a URL to programmatically navigate to, which is resolved according to normal rules
+- `replace`, a boolean indicating whether to use `history.pushState()` or `history.replaceState()`
+
+Non-replacing `goto` calls will also scroll to the top of the page.
+
 ## License
 
 [MIT](LICENSE)
