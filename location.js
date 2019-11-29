@@ -13,6 +13,14 @@ const update = () => set(location);
 
 update();
 
+const goto = (url, replace) => {
+	history[replace ? 'replaceState' : 'pushState'](null, '', url);
+	update();
+	if (!replace) {
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
+	}
+};
+
 document.addEventListener('click', event => {
 	if (!event.ctrlKey && !event.metaKey && !event.shiftKey && event.which === 1) {
 		const elm = event.target.closest('a');
@@ -20,9 +28,7 @@ document.addEventListener('click', event => {
 			const url = elm.href;
 			if (url.startsWith(location.origin + '/')) {
 				event.preventDefault();
-				history.pushState(null, '', url);
-				update();
-				document.body.scrollTop = document.documentElement.scrollTop = 0;
+				goto(url);
 			}
 		}
 	}
@@ -30,4 +36,4 @@ document.addEventListener('click', event => {
 
 addEventListener('popstate', update);
 
-export default { subscribe };
+export default { subscribe, goto };
