@@ -1,17 +1,24 @@
 import { writable } from 'svelte/store';
 
-/*
-// UNCOMMENT THIS IF YOU NEED TO HANDLE UNKNOWN PATHS BY REDIRECTING 404 RESPONSES
-if (location.search.startsWith('?__spa__=')) {
-	history.replaceState(null, '', decodeURIComponent(location.search.slice(9)));
-}
-*/
+let update, click_handler;
 
-const { set, subscribe } = writable();
+const { set, subscribe } = writable(null, () => {
+	/*
+	// UNCOMMENT THIS IF YOU NEED TO HANDLE UNKNOWN PATHS BY REDIRECTING 404 RESPONSES
+	if (location.search.startsWith('?__spa__=')) {
+		history.replaceState(null, '', decodeURIComponent(location.search.slice(9)));
+	}
+	*/
+	update();
+	document.addEventListener('click', click_handler);
+	addEventListener('popstate', update);
+	return () => {
+		document.removeEventListener('click', click_handler);
+		removeEventListener('popstate', update);
+	};
+});
 
-const update = () => set(location);
-
-update();
+update = () => set(location);
 
 const goto = (url, replace) => {
 	history[replace ? 'replaceState' : 'pushState'](null, '', url);
@@ -21,7 +28,7 @@ const goto = (url, replace) => {
 	}
 };
 
-document.addEventListener('click', event => {
+click_handler = event => {
 	if (!event.ctrlKey && !event.metaKey && !event.shiftKey && event.which === 1) {
 		const elm = event.target.closest('a');
 		if (elm && !elm.target && !elm.download) {
@@ -32,8 +39,6 @@ document.addEventListener('click', event => {
 			}
 		}
 	}
-});
-
-addEventListener('popstate', update);
+};
 
 export default { subscribe, goto };
