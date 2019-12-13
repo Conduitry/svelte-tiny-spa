@@ -29,11 +29,14 @@ const goto = (url, replace) => {
 };
 
 click_handler = event => {
-	if (!event.ctrlKey && !event.metaKey && !event.shiftKey && event.which === 1) {
+	if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.defaultPrevented) {
 		const elm = event.target.closest('a');
-		if (elm && !elm.target && !elm.download) {
+		if (elm && elm.href && !elm.target && !elm.hasAttribute('download')) {
 			const url = elm.href;
-			if (url.startsWith(location.origin + '/')) {
+			if (
+				url.startsWith(location.origin + '/') &&
+				!url.startsWith(location.origin + location.pathname + location.search + '#')
+			) {
 				event.preventDefault();
 				goto(url);
 			}
