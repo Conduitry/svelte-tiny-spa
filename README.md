@@ -26,18 +26,19 @@ This is a Svelte store containing the `location` object, and updates whenever a 
 
 Interception occurs when all of the following are met:
 
-1. The link is same-origin
-1. The link does not have a `target` attribute
-1. The link does not have a `download` attribute
-1. The link is left clicked
-1. Ctrl/Cmd/Shift are not pressed when clicking the link
+1. The link is same-origin.
+1. The link is not merely a `#hash` change.
+1. The link does not have a `target` attribute.
+1. The link does not have a `download` attribute.
+1. The link was left clicked.
+1. The link was not clicked while pressing Ctrl/Cmd/Shift.
 
-The store also contains a `goto(url, replace)` method. This accepts two arguments:
+The store also contains `goto(url, replace)` and `scroll()` methods.
 
-- `url`, a string containing a URL to programmatically navigate to, which is resolved according to normal rules
-- `replace`, a boolean indicating whether to use `history.pushState()` or `history.replaceState()`
-
-Non-replacing `goto` calls will also scroll to the top of the page.
+- `goto(url, replace)` navigates to a URL.
+	- `url` is resolved according to normal rules.
+	- `replace` is a boolean indicating whether to use `history.pushState()` or `history.replaceState()`.
+- `scroll()` scrolls to either the top of the page or the element indicated by the `#hash` portion of the URL. This should be called after you've finished rendering a page.
 
 ## License
 
