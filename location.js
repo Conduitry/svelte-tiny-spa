@@ -1,3 +1,7 @@
+// svelte-tiny-spa
+// (c) 2019 Conduitry
+// MIT
+
 import { writable } from 'svelte/store';
 
 let doc, loc, update, click_handler;
