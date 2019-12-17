@@ -1,30 +1,32 @@
 import { writable } from 'svelte/store';
 
-let update, click_handler;
+let doc, loc, update, click_handler;
 
 const { set, subscribe } = writable(null, () => {
+	doc = document;
+	loc = doc.location;
 	/*
 	// UNCOMMENT THIS IF YOU NEED TO HANDLE UNKNOWN PATHS BY REDIRECTING 404 RESPONSES
-	if (location.search.startsWith('?__spa__=')) {
-		history.replaceState(null, '', decodeURIComponent(location.search.slice(9)));
+	if (loc.search.startsWith('?__spa__=')) {
+		history.replaceState(null, '', decodeURIComponent(loc.search.slice(9)));
 	}
 	*/
 	update();
-	document.addEventListener('click', click_handler);
+	doc.addEventListener('click', click_handler);
 	addEventListener('popstate', update);
 	return () => {
-		document.removeEventListener('click', click_handler);
+		doc.removeEventListener('click', click_handler);
 		removeEventListener('popstate', update);
 	};
 });
 
-update = () => set(location);
+update = () => set(loc);
 
 const goto = (url, replace) => {
 	history[replace ? 'replaceState' : 'pushState'](null, '', url);
 	update();
 	if (!replace) {
-		document.body.scrollTop = document.documentElement.scrollTop = 0;
+		doc.body.scrollTop = doc.documentElement.scrollTop = 0;
 	}
 };
 
@@ -33,10 +35,7 @@ click_handler = event => {
 		const elm = event.target.closest('a');
 		if (elm && elm.href && !elm.target && !elm.hasAttribute('download')) {
 			const url = elm.href;
-			if (
-				url.startsWith(location.origin + '/') &&
-				!url.startsWith(location.origin + location.pathname + location.search + '#')
-			) {
+			if (url.startsWith(loc.origin + '/') && !url.startsWith(loc.origin + loc.pathname + loc.search + '#')) {
 				event.preventDefault();
 				goto(url);
 			}
