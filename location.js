@@ -25,9 +25,6 @@ update = () => set(loc);
 const goto = (url, replace) => {
 	history[replace ? 'replaceState' : 'pushState'](null, '', url);
 	update();
-	if (!replace) {
-		doc.body.scrollTop = doc.documentElement.scrollTop = 0;
-	}
 };
 
 click_handler = event => {
@@ -43,4 +40,11 @@ click_handler = event => {
 	}
 };
 
-export default { subscribe, goto };
+const scroll = () => {
+	scrollTo(0, 0);
+	if (loc.hash) {
+		loc.hash = loc.hash;
+	}
+};
+
+export default { subscribe, goto, scroll };
