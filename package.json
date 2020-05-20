@@ -1,0 +1,7 @@
+{
+  "name": "@conduitry/svelte-tiny-spa",
+  "version": "0.0.0",
+  "private": true,
+  "homepage": "https://git.chor.date/Conduitry/svelte-tiny-spa",
+  "module": "location.js"
+}
