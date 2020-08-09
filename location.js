@@ -32,7 +32,7 @@ const goto = (url, replace) => {
 };
 
 click_handler = event => {
-	if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.defaultPrevented) {
+	if (event.button === 0 && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.defaultPrevented) {
 		const elm = event.target.closest('a');
 		if (elm && elm.href && !elm.target && !elm.hasAttribute('download')) {
 			const url = elm.href;
