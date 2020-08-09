@@ -31,7 +31,8 @@ Interception occurs when all of the following are met:
 1. The link does not have a `target` attribute.
 1. The link does not have a `download` attribute.
 1. The link was left clicked.
-1. The link was not clicked while pressing Ctrl/Cmd/Shift.
+1. The link was not clicked while pressing Alt/Ctrl/Meta/Shift.
+1. The link click was not `preventDefault`ed.
 
 The store also contains `goto(url, replace)` and `scroll()` methods.
 
