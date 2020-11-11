@@ -1,6 +1,7 @@
 {
   "name": "@conduitry/svelte-tiny-spa",
   "version": "0.0.0",
+  "description": "A tiny unframework for making SPAs in Svelte.",
   "private": true,
   "homepage": "https://git.chor.date/Conduitry/svelte-tiny-spa",
   "module": "location.js"
