@@ -4,7 +4,7 @@
 
 import { writable } from 'svelte/store';
 
-let doc, loc, update, click_handler;
+let doc, loc, click_handler, popstate_handler, is_nav;
 
 const { set, subscribe } = writable(null, () => {
 	doc = document;
@@ -15,20 +15,19 @@ const { set, subscribe } = writable(null, () => {
 		history.replaceState(null, '', decodeURIComponent(loc.search.slice(9)));
 	}
 	*/
-	update();
+	set(loc);
 	doc.addEventListener('click', click_handler);
-	addEventListener('popstate', update);
+	addEventListener('popstate', popstate_handler);
 	return () => {
 		doc.removeEventListener('click', click_handler);
-		removeEventListener('popstate', update);
+		removeEventListener('popstate', popstate_handler);
 	};
 });
 
-update = () => set(loc);
-
 const goto = (url, replace) => {
+	is_nav = true;
 	history[replace ? 'replaceState' : 'pushState'](null, '', url);
-	update();
+	set(loc);
 };
 
 click_handler = event => {
@@ -44,11 +43,18 @@ click_handler = event => {
 	}
 };
 
-const scroll = () => {
-	scrollTo(0, 0);
-	if (loc.hash) {
-		loc.hash = loc.hash;
+popstate_handler = () => {
+	is_nav = false;
+	set(loc);
+};
+
+const done = () => {
+	if (is_nav) {
+		scrollTo(0, 0);
+		if (loc.hash) {
+			loc.hash = loc.hash;
+		}
 	}
 };
 
-export default { subscribe, goto, scroll };
+export default { subscribe, goto, done };
