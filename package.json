@@ -4,5 +4,8 @@
   "description": "A tiny unframework for making SPAs in Svelte.",
   "private": true,
   "homepage": "https://git.chor.date/Conduitry/svelte-tiny-spa",
-  "module": "location.js"
+  "type": "module",
+  "exports": {
+    ".": "./location.js"
+  }
 }
