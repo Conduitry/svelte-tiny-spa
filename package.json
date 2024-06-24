@@ -7,5 +7,8 @@
   "type": "module",
   "exports": {
     ".": "./location.js"
+  },
+  "peerDependencies": {
+    "svelte": ">=3"
   }
 }
